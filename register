@@ -1,0 +1,74 @@
+ <html>                         
+ <head>
+ <meta charset = "UTF-8">
+ <title>Register</title>          
+ </head>
+ <style type = "text/css">
+ .all {
+  text-align:center;
+  position: relative;
+  top:5em;
+  font-size:25px;
+ }
+ .table1{
+  position: relative;
+  bottom:10em;
+ }
+ </style>
+ <script>
+    function home()
+    {
+      document.location.href="http://localhost/index.php";
+    }
+    function start()
+    {
+      var backhome = document.getElementById("backhome");
+      backhome.addEventListener("click", home , false);
+    }
+    window.addEventListener("load", start, false);
+    </script>  
+ <body background = "back_ground2.jpg" style = "background-repeat:no-repeat; background-attachment:fixed; background-position:center; background-size:cover;">
+    <form class = "all" method = "post" action = "http://localhost/register_verify.php">
+      <h1 style = "color:white;">會員註冊</h1>
+      <p style = "color:white;"><label>會員帳號:
+        <input name = "ID" type = "text" size = "20" autocomplete="off" placeholder ="ID" autofocus required>
+      </label></p>
+      <p style = "color:white;"><label>會員密碼:
+        <input name = "password" type = "password" size = "20" autocomplete="off" placeholder ="password" required>
+      </label></p>
+      <p style = "color:white;"><label>驗證密碼:
+        <input name = "password2" type = "password" size = "20" autocomplete="off" placeholder ="password" required>
+      </label></p>
+      <p style = "color:white;"><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;電話:
+        <input name = "telephone" type = "text" size = "20" autocomplete="off" placeholder ="telephone" required>
+      </label></p>
+      <p>
+        <input id = "backhome" type = "button" name = "backhome" value = "回首頁"> 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type = "submit" value = "確認">
+        <input type = "reset" value = "Clear">
+      </p>
+    </form>
+ </body>
+ </html>
+
+<?php
+  include("contodb.php");
+?>
+<table class = "table1" width=500 border="0" align="right" cellpadding="5" cellspacing="1" bgcolor="#add3ef">
+<?php   
+  $sql = "SELECT * FROM member_login natural join login";
+  $query = mysql_query($sql);
+  while($row = mysql_fetch_array($query)){
+?>
+
+  <tr bgcolor="#eff3ff">
+  <td>
+    <b><big>會員代號：<?= $row['number']?></big><b/>&nbsp;     
+    <b><big>會員帳號：<?= $row['id']?></bif></b>
+  </td>
+  </tr>
+<?php 
+  }
+?>
+</table>
