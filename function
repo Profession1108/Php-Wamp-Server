@@ -1,0 +1,149 @@
+<?php session_start(); ?>
+<html>  
+  <head>
+    <meta charset = "image/jpeg">
+    <title>Dog_Data</title>
+  </head>
+  <body>
+  <?php
+  include("contodb.php");
+  if($_SESSION['id'] != null)
+  {
+      if(isset($_POST['modify']))
+      {
+        $modify = $_POST['modify']; 
+      }else if(isset($_POST['delete'])){
+        $delete = $_POST['delete'];    
+      }else if(isset($_POST['add']))
+      {
+        $add = $_POST['add'];
+      }else if(isset($_POST['logout']))
+      {
+        $logout = $_POST['logout'];
+      }
+      
+  $sql = "SELECT * FROM dog_data";
+  $result = mysql_query($sql);
+  
+    if(isset($_POST['modify']))
+    {
+      echo "<input type =\"submit\" name = \"add\" value = \"新增\"  disabled = \"disabled\">";
+      echo 
+      "<form name = \"form\" method = \"post\" action = \"http://localhost/update.php\" enctype=\"multipart/form-data\">
+      <table border = '1'>
+      <tr>
+      <th>Image</th>
+      <th>Number</th>
+      <th>Type</th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>Sourceplace</th>
+      <th>History</th>
+      <th>修改</th>
+      <th>刪除</th>
+      </tr>";
+      while($row = @mysql_fetch_row($result)){    
+      if($modify == $row[1])
+      {
+        echo "<tr>";
+        echo "<td>";?> <img src="<?php echo $row[0];?>" height = "100" width = "100"> <?php echo "<input type=\"file\" name=\"file\" id=\"file\"></td>"; 
+        echo "<td>" .$row[1]. "</td>";
+        echo "<td><input name = \"Type\" type = \"text\" size = \"20\" value=\"$row[2]\" autocomplete=\"off\"></td>";
+        echo "<td><input name = \"Height\" type = \"text\" size = \"50\" value=\"$row[3]\" autocomplete=\"off\"></td>";
+        echo "<td><input name = \"Weight\" type = \"text\" size = \"50\" value=\"$row[4]\" autocomplete=\"off\"></td>";
+        echo "<td><input name = \"Length\" type = \"text\" size = \"50\" value=\"$row[5]\" autocomplete=\"off\"></td>";
+        echo "<td><textarea  name = \"Gender\" autocomplete=\"off\" style= \"width:300px;height:100px;\">". $row[6] ."</textarea></td>";
+        echo "<td><input type=\"submit\" name=\"modify\" value=\"$row[1]\"></td>";
+        echo "<td><input type=\"submit\" name=\"delete\" value=\"$row[1]\" disabled = \"disabled\"></td>";
+        echo "</tr>";
+      }else
+      {
+        echo "<tr>";
+        echo "<td>";?> <img src="<?php echo $row[0];?>" height = "100" width = "100"> <?php echo "</td>"; 
+        echo "<td>" .$row[1]. "</td>";
+        echo "<td>" .$row[2]. "</td>";
+        echo "<td>" .$row[3]. "</td>";
+        echo "<td>" .$row[4]. "</td>";
+        echo "<td>" .$row[5]. "</td>";
+        echo "<td>" .$row[6]. "</td>";
+        echo "<td><input type=\"submit\" name=\"modify\" value=\"$row[1]\" disabled = \"disabled\"></td>";
+        echo "<td><input type=\"submit\" name=\"delete\" value=\"$row[1]\" disabled = \"disabled\"></td>";
+        echo "</tr>";
+      }
+      }
+    }else if(isset($_POST['delete']))
+    {
+      while($row = @mysql_fetch_row($result)){
+      if($delete == $row[1])
+      {
+          $sql = "delete from dog_data where Number = $delete";
+          if(mysql_query($sql))
+          {
+                echo '刪除成功!';
+                echo '<meta http-equiv=REFRESH CONTENT=2;url=dog_data.php>';
+          }
+          else
+          {
+                echo '刪除失敗!';
+                echo '<meta http-equiv=REFRESH CONTENT=2;url=dog_data.php>';
+          }
+      }
+      }
+    }else if(isset($_POST['add']))
+    {
+      echo 
+      "<form name = \"form\" method = \"post\" action = \"http://localhost/update.php\" enctype=\"multipart/form-data\">
+      <input type =\"submit\" name = \"add\" value = \"新增\">
+      <table border = '1'>
+      <tr>
+      <th>Image</th>
+      <th>Number</th>
+      <th>Type</th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>Length</th>
+      <th>Gender</th>
+      <th>修改</th>
+      <th>刪除</th>
+      </tr>";
+      while($row = @mysql_fetch_row($result))
+      {
+        echo "<tr>";
+        echo "<td>";?> <img src="<?php echo $row[0];?>" height = "100" width = "100"> <?php echo "</td>";
+        echo "<td>" .$row[1]. "</td>";
+        echo "<td>" .$row[2]. "</td>";
+        echo "<td>" .$row[3]. "</td>";
+        echo "<td>" .$row[4]. "</td>";
+        echo "<td>" .$row[5]. "</td>";
+        echo "<td>" .$row[6]. "</td>";
+        echo "<td><input type=\"submit\" name=\"modify\" value=\"$row[1]\" disabled = \"disabled\"></td>";
+        echo "<td><input type=\"submit\" name=\"delete\" value=\"$row[1]\" disabled = \"disabled\"></td>";
+        echo "</tr>";
+      }
+        echo "<tr>";
+        echo "<td><input type=\"file\" name=\"file\" id=\"file\"></td>"; 
+        echo "<td><input name = \"add\" type = \"number\" size = \"20\" autocomplete=\"off\"></td>";
+        echo "<td><input name = \"Type\"   type = \"text\" size = \"20\" autocomplete=\"off\"></td>";
+        echo "<td><input name = \"Height\" type = \"text\" size = \"50\" autocomplete=\"off\"></td>";
+        echo "<td><input name = \"Weight\" type = \"text\" size = \"50\" autocomplete=\"off\"></td>";
+        echo "<td><input name = \"Length\" type = \"text\" size = \"50\" autocomplete=\"off\"></td>";
+        echo "<td><textarea  name = \"Gender\" autocomplete=\"off\" style= \"width:300px;height:100px;\"></textarea></td>";
+        echo "</tr>";
+      echo "</table></form>";
+    }else if(isset($_POST['logout']))
+    {
+        $_SESSION['id'] = null;
+        echo '您已經登出!';
+        echo '<meta http-equiv=REFRESH CONTENT=2;url=index.php>';
+    }
+  echo "</table></form>";
+  }
+  else
+  {
+        unset($_SESSION['id']);
+        echo '[您無權限觀看此頁面]!';
+        echo '<meta http-equiv=REFRESH CONTENT=2;url=index.php>';
+  }
+  ?>
+  </body>
+</html>
