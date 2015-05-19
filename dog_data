@@ -1,0 +1,56 @@
+<?php session_start(); ?>
+<html>  
+  <head>
+    <meta charset = "UTF-8">
+    <title>Dog_Data</title>
+  </head>
+  <body>
+
+  <?php
+  include("contodb.php");
+
+  
+  if($_SESSION['id'] != null)
+  { 
+  $sql = "SELECT * FROM dog_data";
+  $result = mysql_query($sql);
+  echo 
+  "<form name = \"form\" method = \"post\" action = \"http://localhost/function.php\" enctype=\"multipart/form-data\">
+  <input type =\"submit\" name = \"add\" value = \"新增\">
+  <input type =\"submit\" name = \"logout\" value = \"登出\">
+  <table border = '1'>
+  <tr>
+  <th>Image</th>
+  <th>Number</th>
+  <th>Type</th>
+  <th>Height</th>
+  <th>Weight</th>
+  <th>Sourceplace</th>
+  <th>History</th>
+  <th>修改</th>
+  <th>刪除</th>
+  </tr>";
+  while($row = @mysql_fetch_row($result)){
+    echo "<tr>";  
+    echo "<td>";?> <img src="<?php echo $row[0];?>" height = "100" width = "100"> <?php echo "</td>"; 
+    echo "<td>" .$row[1]. "</td>";
+    echo "<td>" .$row[2]. "</td>";
+    echo "<td>" .$row[3]. "</td>";
+    echo "<td>" .$row[4]. "</td>";
+    echo "<td>" .$row[5]. "</td>";
+    echo "<td>" .$row[6]. "</td>";
+    echo "<td><input type=\"submit\" name=\"modify\" value=\"$row[1]\"></td>";
+    echo "<td><input type=\"submit\" name=\"delete\" value=\"$row[1]\"></td>";
+    echo "</tr>";
+  }
+  echo "</table></form>";
+  }
+  else
+  {
+        $_SESSION['id'] = null;
+        echo '您無權限觀看此頁面!';
+        echo '<meta http-equiv=REFRESH CONTENT=2;url=index.php>';
+  }
+  ?>
+  </body>
+</html>
