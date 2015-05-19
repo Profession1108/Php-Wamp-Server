@@ -1,0 +1,162 @@
+<html>
+  <head>
+    <meta charset = "UTF-8">
+    <title>Welcome to dog home!</title>
+    <style type = "text/css">
+    .aboutdog{font-size:20px;
+                color:blue;
+                font-weight: bold;
+                position: relative;
+                top: 0em;}
+    .message{font-size:20px;
+                color:blue;
+                font-weight: bold;
+                position: relative;
+                top: 0.3em;}
+    .login{font-size:20px;
+                color:blue;
+                font-weight: bold;
+                position: relative;
+                top: 0.6em;}
+    a.message{text-decoration: none;}
+    a.aboutdog{text-decoration: none;}
+    a:hover  {background-color:yellow;}
+
+    body{overflow:hidden;}
+    #myDiv{overflow:hidden;width:1400px;}
+    #myDiv img{border:1px solid; 
+               width:160px; 
+               height:200px;}
+    
+    .floated {width: 17%;
+              height: 66%;
+              overflow: scroll;
+              font-family: calibri, sans-serif;
+              text-align: left;
+              float: left;}
+    </style>
+     <script>
+    function Home()
+    {
+      var home = document.getElementById("home");
+      home.src = "aboutdog.php";      
+    }
+    function Message()
+    {
+      var home = document.getElementById("home");
+      home.src = "message.php";  
+    }
+    function home()
+    {
+      document.location.href="http://localhost/index.php";
+    }
+    function register2()
+    {
+       document.location.href="http://localhost/register.php";
+    }
+    function start()
+    {
+      var backhome = document.getElementById("backhome");
+      var register = document.getElementById("register");
+      backhome.addEventListener("click", home , false);
+      register.addEventListener("click", register2 , false);
+    }
+    window.addEventListener("load", start, false);
+    </script>  
+  </head>
+  <body background = "back_ground.jpg" style = "background-repeat:no-repeat; background-attachment:fixed; background-position:center; background-size:cover;">
+  <div id = "myDiv">
+    <table>
+      <tr>
+        <td id = "pic1">
+          <table>
+            <tr>
+              <td><img src = "0.jpg"></td>
+              <td><img src = "1.jpg"></td>
+              <td><img src = "2.jpg"></td>
+              <td><img src = "3.jpg"></td>
+              <td><img src = "4.jpg"></td>
+              <td><img src = "5.jpg"></td>
+              <td><img src = "6.jpg"></td>
+              <td><img src = "7.jpg"></td>
+              <td><img src = "8.jpg"></td>
+              <td><img src = "9.jpg"></td>
+              <td><img src = "10.jpg"></td>
+              <td><img src = "11.jpg"></td>
+              <td><img src = "12.jpg"></td>
+              <td><img src = "13.jpg"></td>
+              <td><img src = "14.jpg"></td>
+              <td><img src = "15.jpg"></td>
+              <td><img src = "16.jpg"></td>
+              <td><img src = "17.jpg"></td>
+              <td><img src = "18.jpg"></td>
+            </tr>
+          </table>
+        </td>
+        <td id = "pic2"></td>
+      </tr>
+    </table>
+  </div>
+  <div style = "background-image:url('19.gif');background-repeat:repeat-x;overflow:hidden;height:15px;"></div>
+  <div class = "floated">
+        <p><a class = "aboutdog" href = "javascript: Home(); return false;">關於狗狗</a></p>
+        <p><a class = "message" href = "javascript: Message(); return false;">留言板</a></p></td>
+        <p><a class = "login">管理員/會員</a></p>
+         <form method = "post" action = "http://localhost/vertify.php">
+        <p><label>帳號:
+        <input name = "ID" type = "text" size = "20" autocomplete="off" placeholder ="ID" autofocus required>
+        </label></p>
+        <p><label>密碼:
+        <input name = "password" type = "password" size = "20" autocomplete="off" placeholder ="password" required>
+        </label></p>
+        <p>
+        <input type = "submit" value = "Submit" style = "float: left;">
+        <input type = "reset" value = "Clear" style = "float: left;">
+        </p>  
+        </form>
+        <form method = "post" action = "http://localhost/register.php">
+        <input id = "register" type = "button" name = "register" value = "會員註冊">
+        </form>
+        <?php
+        include("contodb.php");
+        $sql = "SELECT count(number) FROM login";
+        $result = mysql_query($sql);
+        $number = mysql_result($result,0);
+        echo "目前會員人數: ".$number."</br></br>";
+        $sql = "SELECT count(Number) FROM dog_data";
+        $result = mysql_query($sql);
+        $number = mysql_result($result,0);
+        echo "目前資料數目: ".$number."</br></br></br></br>";
+        ?>
+        <form method = "post" action = "http://localhost/vertify.php">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input id = "backhome" type = "button" name = "backhome" value = "回首頁">
+        </form>
+  </div>
+  <iframe id = "home" src= "home.php" style = "width:82.5%; height:63.5%;"></iframe>s
+  </body>
+</html>
+<script type="text/javascript">
+    window.onload = function(){ 
+    var Speed=10; 
+    var timer; 
+    var myDiv = document.getElementById("myDiv"); 
+    var pic2= document.getElementById("pic2"); 
+    pic2.innerHTML=document.getElementById("pic1").innerHTML; 
+
+    function picMarquee(){ 
+        if(pic2.offsetWidth - myDiv.scrollLeft <= 0){ 
+            myDiv.scrollLeft = 0;
+        }else{ 
+            myDiv.scrollLeft++; 
+        } 
+    } 
+    timer=setInterval(picMarquee,Speed); 
+    myDiv.onmouseover=function(){ 
+        clearInterval(timer); 
+    } 
+    myDiv.onmouseout=function(){ 
+        timer=setInterval(picMarquee,Speed); 
+    } 
+};
+</script>
