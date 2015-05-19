@@ -1,0 +1,44 @@
+<?php session_start(); ?>
+<html>  
+  <head>
+    <meta charset = "UTF-8">
+    <title>Dog_Data</title>
+  </head>
+  <body>
+
+  <?php
+  include("contodb.php");       
+  $ID = $_POST['ID'];
+  $password = $_POST['password'];
+  $password2 = $_POST['password2'];
+  $telephone = $_POST['telephone'];
+  
+
+  //確認密碼輸入的正確性
+  if($ID != null && $password != null && $password2 != null && $password == $password2)
+  {
+        //新增資料進資料庫語法
+        $sql = "insert into member_login(id,password,telephone) values('$ID', '$password', '$telephone')";
+        $result = mysql_query($sql);
+        $number = mysql_insert_id();
+        $sql = "insert into login(number,id,password) values($number,'$ID', '$password')";  
+        if(mysql_query($sql))
+        {
+                
+                echo '新增成功!';
+                echo '<meta http-equiv=REFRESH CONTENT=2;url=index.php>';
+        }
+        else
+        {
+                echo "<script>window.alert('已有相同帳號,請重新註冊!')</script>";
+                echo '<meta http-equiv=REFRESH CONTENT=2;url=register.php>';
+        }
+  }
+  else
+  {
+        echo "<script>window.alert('驗證密碼錯誤,請重新輸入!')</script>";
+        echo '<meta http-equiv=REFRESH CONTENT=2;url=register.php>';
+  }
+  ?>
+  </body>
+</html>
