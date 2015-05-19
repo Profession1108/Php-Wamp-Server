@@ -1,0 +1,40 @@
+ <html>                         
+ <head>
+ <meta charset = "UTF-8">          
+ </head>
+ <h1 style = "color:Red;">查詢</h1>
+ <form method = "post" action = "http://localhost/search.php">
+ <p>請輸入狗的種類:
+ 	<input name = "type" type = "text" size = "20" autocomplete="off" placeholder ="輸入狗的種類" autofocus required>
+    <input type = "submit" value = "提交">
+ </p>
+ <?php
+ include("contodb.php");
+ $sql = "SELECT * FROM dog_data";
+ $result = mysql_query($sql);  
+ echo "
+  <table border = '1'>
+  <tr>
+  <th>Image</th>
+  <th>Number</th>
+  <th>Type</th>
+  <th>Height</th>
+  <th>Weight</th>
+  <th>Sourceplace</th>
+  <th>History</th>
+  </tr>";
+  while($row = @mysql_fetch_row($result)){
+      echo "<tr>";  
+      echo "<td>";?> <img src="<?php echo $row[0];?>" height = "100" width = "100"> <?php echo "</td>"; 
+      echo "<td>" .$row[1]. "</td>";
+      echo "<td>" .$row[2]. "</td>";
+      echo "<td>" .$row[3]. "</td>";
+      echo "<td>" .$row[4]. "</td>";
+      echo "<td>" .$row[5]. "</td>";
+      echo "<td>" .$row[6]. "</td>";
+      echo "</tr>";
+  }
+  echo "</table></form>";
+ ?>
+</form>
+ </html>
